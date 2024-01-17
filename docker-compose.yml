@@ -9,7 +9,7 @@ services:
     volumes:
       - ./app:/var/www
     links:
-      - "mongo:mongohost"
+      - "mongo-project:mongohost"
   mongo-project:
     container_name: mongo-project
     image: mongo:latest

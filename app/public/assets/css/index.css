@@ -1,0 +1,37 @@
+
+button {
+    width: 20%;
+    height: 50px;
+    background-image: url(https://media.istockphoto.com/id/1147521090/photo/empty-white-studio-room-abstract-background.jpg?s=612x612&w=0&k=20&c=YNFVwi9y-7M4n4T7hBKA4XwvcECPHuOWcONbsDqJNco=);
+}
+.form-group input{
+    display: inline-block;
+    background-position: center;
+    margin-top: 0%;
+}
+body{
+    background-image: url('https://images.pexels.com/photos/1939485/pexels-photo-1939485.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+}
+form#login_form {
+    display: block;
+    width: 33%;
+    border: 2px solid green;
+    border-radius: 5px;
+    padding: 1%;
+    background-image: url(https://media.istockphoto.com/id/1147521090/photo/empty-white-studio-room-abstract-background.jpg?s=612x612&w=0&k=20&c=YNFVwi9y-7M4n4T7hBKA4XwvcECPHuOWcONbsDqJNco=);
+}
+.form-group input{
+    display: inline-block;
+    width: 50%;
+    margin: 2%;
+}
+.form-group label{
+    display: inline-block;
+    width: 30%;
+    margin: 2%;
+}
+p1{
+    font-size: 40px;
+    background-color: red;
+    border: 2px solid black;
+}

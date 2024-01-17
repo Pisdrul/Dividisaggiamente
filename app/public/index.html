@@ -2,12 +2,30 @@
 <head>
     <title>Dividi Saggiamente</title>
     <script src ="assets/js/app.js" defer></script>
+    <link rel="stylesheet" href="assets/css/index.css">
 </head>
 <body>
     <p1>
-        <div id="Header">
-            <href a="/utente">Pagina personale</href>
-        </div>
+        Benvenuto su DividiSaggiamente!
     </p1>
-    
+    <p>
+        Hai un account? Fai sign in!
+
+        <form id="login_form" action="/api/auth/signin" method="post">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" name="username" id="username" />
+            </div>
+            <div class="form-group">
+                <label for="Password">Password:</label>
+                <input type="text" name="password" id="password" />
+            </div>       
+                       
+            <input id="auth" type="submit" value="Login"/>
+
+        </form>
+    </p>
+    <div id="Sign-up-send">
+        <button onclick="window.location.href='signup.html';">Non sei ancora iscritto?</button>
+    </div>
 </body>
