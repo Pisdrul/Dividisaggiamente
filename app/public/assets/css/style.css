@@ -1,15 +1,16 @@
+#Benvenuto{
+    font-size: 40px;
+    font-weight: bold;
+}
 
 button {
     width: 20%;
-    height: 50px;
-    margin-top: 10px;
+    height: 30px;
+    margin: 10px;
+    font-size: 1vw;
     background-image: url(https://media.istockphoto.com/id/1147521090/photo/empty-white-studio-room-abstract-background.jpg?s=612x612&w=0&k=20&c=YNFVwi9y-7M4n4T7hBKA4XwvcECPHuOWcONbsDqJNco=);
 }
-.form-group input{
-    display: inline-block;
-    background-position: center;
-    margin-top: 0%;
-}
+
 body{
     background-image: url('https://images.pexels.com/photos/1939485/pexels-photo-1939485.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
 }
@@ -30,7 +31,45 @@ form {
     display: inline-block;
     width: 30%;
     margin: 2%;
+    font-size: 1.2vw;
 }
 p{
     margin-bottom: 10px;
+}
+
+table{
+    border-collapse: collapse;
+    max-width: 250px;
+    margin-top: 2%;
+}
+tr{
+    border: 1px solid black;
+    line-height: 25px;
+    display: block;
+
+}
+table tr:nth-child(odd) {
+    background-color: lightsteelblue;
+}
+
+table tr:nth-child(even) {
+    background-color: white;    
+}
+table th{
+    border: 1px solid black;
+}
+#results{
+    margin-top: 2%;
+}
+header{
+    margin-bottom: 2%;
+}
+#bilancio{
+    font-size: 2.3vw;
+    margin-bottom: 3%;
+}
+
+.Search{
+    display: inline;
+    margin-right: 2%;
 }

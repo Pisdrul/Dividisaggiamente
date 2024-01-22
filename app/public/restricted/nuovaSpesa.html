@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<head>
+    <title> Nuova spesa</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <script src="../assets/js/nuovaSpesa.js" defer></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+
+    <body>
+    <header id="Return-to-user">
+        <button onclick="window.location.href='utente.html';">Torna indietro</button>
+    </header>
+    <div id="formPrincipale">
+        <form action="/api/:year/:month" method="post" style="display: inline-block;">
+            Inserisci spesa:
+            <div class="form-group">
+                <label for="costototale">Costo totale spesa:</label>
+                <input type="number" id="costototale" value="0">
+                <!-- Viene considerato come se l'utente che inserisce la spesa sia quello che ha anticipato i soldi per gli altri-->
+            </div>
+            <div class="form-group">
+                <label for="categoria">Categoria spesa:</label>
+                <input type="text" id="categoria">
+            </div>
+            <div class="form-group">
+                <label for="descrizione">Descrizione spesa:</label>
+                <input type="text" id="descrizione">
+            </div>
+            <div class="form-group">
+                <label for="data">Data spesa:</label>
+                <input type="date" id="data">
+            </div>
+        </form>
+    </div>
+    <div class="form-group">
+        <button id="submit">Submit</button>
+    </div>
+    <div id="nuovoUtente" style="display: inline-block; margin-top: 2%;">
+            Inserisci utente con cui dividere la spesa:
+        <div>
+            <input list="users" id="inputUser">
+            <datalist id="users">
+            </datalist>
+            <input type="submit" id="aggUtente">
+        </div>
+        <div id="error" style="font-weight: bold; color: red;">
+
+        </div>
+    </div>
+    <div id="userlist">
+
+    </div>
+    </body>
+</head>

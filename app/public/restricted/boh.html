@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<head>
+    <title>VUE test</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body>
+    <div id="app">
+        <people-list :people="people"></people-list>
+        <div>
+        <input v-model="name" placeholder="name" /><br />
+        <input v-model="surname" placeholder="surname" /><br />
+        <button @click.prevent="addPerson">Add person</button>
+        </div>
+        </div>
+</body>
+
+<script>
+    const { createApp } = Vue
+const PeopleList = {
+props: ['people'],
+template: `<person v-for="person in people" :person="person"></person>`
+}
+const Person = {
+props: ['person'],
+template: `<div><i>{{ person.name }}</i> <b>{{ person.surname }}</b></div>`
+}
+const app = createApp({
+data() { return { people: [{ name: 'Andrea', surname: 'De Lorenzo' }], name: '', surname: ''}},
+methods: {
+addPerson: function() {
+this.people.push({
+name: this.name,
+surname: this.surname
+});
+this.name = '';
+this.surname = '';
+}
+}
+});
+app.component("Person", Person);
+app.component("PeopleList", PeopleList);
+app.mount('#app');
+</script>

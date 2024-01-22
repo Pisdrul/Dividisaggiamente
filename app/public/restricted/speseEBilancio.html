@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<head>
+    <title>
+        Resoconto finanziario
+    </title>
+    <script src="../assets/js/guardaSpeseEBilancio.js"></script>
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <header id="Return-to-user">
+        <button onclick="window.location.href='utente.html';">Torna indietro</button>
+    </header>
+    <div id="bilancio">
+        Il tuo bilancio è:
+    </div>
+    <div id="searchSpese">
+        <div class="Search">
+            <label for="mese">Cerca per mese</label>
+            <input type="month" name="mese" id="mese">
+            <input type="submit" id="cercaMese" value="Cerca">
+        </div>
+        <div class="Search">
+            <label for="anno">Cerca per anno</label>
+            <input type="number" min="1900" max="2099" step="1" value="2016" id="anno"/>
+            <input type="submit" id="cercaAnno" value="Cerca">
+        </div>
+    </div>
+    <div>
+        <table id="spese">
+            <tr>
+                <th> ID Spesa</th>
+                <th> Data</th>
+                <th> Categoria</th>
+                <th> Descrizione</th>
+                <th> Quota</th>
+            </tr>
+        </table>
+    </div>
+</body>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pagina personale</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+    <div>
+        <script>
+            
+        </script>
+    </div>
+    <button id="AggSpesa" onclick="window.location.href='nuovaSpesa.html'">Aggiungi spesa</button>
+    <button id="VisualizzaSpese" onclick="window.location.href='speseEBilancio.html'">Visualizza spese e bilancio</button>
+    <button id="CercaEmodifica">Cerca e/o modifica spesa</button>
+    <button id="cercaUtente" onclick="window.location.href='cercaUtente.html'">Cerca un utente</button>
+    <button id="logout" onclick="logout()">Logout</button>    
+</body>
+</html>
+
+<script>
+    async function logout(){
+        const response = await fetch("/api/auth/logout", {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        });
+        alert("Hai fatto logout");
+        window.location.href = "/index.html";
+    }
+</script>

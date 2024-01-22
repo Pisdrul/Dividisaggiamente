@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<head>
+    <title> Cerca Utente</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <script src="../assets/js/searchUser.js" defer></script>
+</head>
+
+<body>
+    
+    <header id="Return-to-user">
+        <button onclick="window.location.href='utente.html';">Torna indietro</button>
+    </header>
+    <div id="Search" style="margin-top: 1%;">
+        <div>
+            Cerchi un utente?
+        </div>
+        <input type="text" id="utente" value="p">
+        <button type="submit" id="submit" style="width: 5%; height: 10%;">Cerca</button>
+        <div id="error" style="color: red; font-weight: bold; margin-top: 2%;">
+
+        </div>
+        <div id="risultati">
+            <table id="results">
+            </table>
+        </div>
+        
+    </div>
+    
+</body>
+
