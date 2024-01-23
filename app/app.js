@@ -13,29 +13,29 @@ let db = null;
 
 app.use(express.json());
 
-app.use(session({
+app.use(session({ //token sessione
     secret: 'segreto123',
     resave: false
 }));
 
-function autenticazione(req, res, next){
+function autenticazione(req, res, next){ //rimanda errore se l'utente non è autenticato e cerca di accedere a una risorsa restricted
     if(req.session.user){
         next();
     } else {
         res.status(403).send("Non Autenticato");
     }
 }
-app.get("/api/userlist", async (req,res) =>{
+app.get("/api/userlist", autenticazione, async (req,res) =>{ //ritorna lista degli user iscritti al server, serve per select di nuova spesa
     const users = await connectToDB();
     const accountsList = await users.collection("users").find().toArray();
     res.json(getUsernames(accountsList));
 })
 
-app.get("/api/username", autenticazione, async (req,res) =>{
+app.get("/api/username", autenticazione, async (req,res) =>{ //ritorna username dell'user della sessione
     res.json(req.session.user.username);
 })
 
-app.post("/api/auth/signup", async (req,res) => {
+app.post("/api/auth/signup", async (req,res) => { //iscrizione al sito
     const new_username = req.body.username;
     const new_password = req.body.password;
     const credentials = {username: new_username, password: new_password};
@@ -48,7 +48,6 @@ app.post("/api/auth/signup", async (req,res) => {
 })
 
 app.post("/api/auth/signin", async (req,res) =>{
-    console.log(req.session.user);
     if(req.session.user != null){
         res.json("autenticato");
         return null;
@@ -65,25 +64,39 @@ app.post("/api/auth/signin", async (req,res) =>{
         res.json(null);
     }
 })
-app.get("/api/auth/logout", autenticazione, async (req,res) =>{
+app.get("/api/auth/logout", autenticazione, async (req,res) =>{ //fa logout disturggendo la sessione
     req.session.destroy();
     res.json("Logout");
 })
 
-app.get("/api/budget", async (req,res) =>{
+app.get("/api/budget", autenticazione, async (req,res) =>{ //trova le spese dell'utente cercando quali spese hanno l'utente come partecipante
+    const userId = req.session.user.username;
+    const query = new RegExp(userId);
+    const db = await connectToDB();
+    const querySpese = await db.collection("spese").find({"Partecipanti+Quote":{$regex: query}}).toArray();
+    res.json(querySpese);
 
 })
 
-app.get("/api/budget/:year", async (req,res) =>{
-    let year = req.params.year;
-    res.json(year);
+
+app.get("/api/budget/:year/:month", autenticazione, async (req,res) =>{
+    const db = await connectToDB();
+    const userId = req.session.user.username+":";
+    const query = new RegExp(userId);
+    const dataquery = new RegExp(req.params.year+"-"+ req.params.month);
+    const trovato = await db.collection("spese").find({'Data':{$regex: dataquery}, 'Partecipanti+Quote':{$regex: query}}).toArray();
+    res.json(trovato);
 })
 
-app.get("/api/:year/:month/:id", autenticazione, async (req,res) =>{
-    res.json(req.params.year + req.params.month + req.params.id);
+app.get("/api/budget/:year/:month/:id", autenticazione, async (req,res) =>{
+    const id = parseInt(req.params.id);
+    const db = await connectToDB();
+    const spesa = await db.collection("spese").findOne({'id' : id});
+    console.log(spesa);
+    res.json(spesa);
 })
 
-app.post("/api/:year/:month", async (req,res) =>{
+app.post("/api/budget/:year/:month", autenticazione, async (req,res) =>{
     const db = await connectToDB();
     const maxid = await db.collection("spese").find().sort({"id":-1}).limit(1).toArray();
     const id = maxid[0].id + 1
@@ -97,28 +110,79 @@ app.post("/api/:year/:month", async (req,res) =>{
     res.json(spesa);
 })
 
-app.put("api/:year/:month", autenticazione, async(req,res)=>{
-    
+app.put("/api/budget/:year/:month/:id", autenticazione, async(req,res)=>{
+    const id = parseInt(req.params.id);
+    const db = await connectToDB();
+    var quoteArray = [];
+    for(partecipante in req.body.partecipanti){
+        quoteArray.push(req.body.partecipanti[partecipante] + ":" + req.body.quote[partecipante]);
+    }
+    const spesamodificata = {'id': id, 'Categoria': req.body.categoria, 'Descrizione': req.body.descrizione, 'Data': req.body.data, 'Partecipanti+Quote': quoteArray};
+    await db.collection("spese").findOneAndReplace({'id':id}, spesamodificata);
+    res.json("ok");
 })
 
-app.get("/api/balance", async (req,res) =>{
-    
+app.delete("/api/budget/:year/:month/:id", autenticazione, async(req,res)=>{
+    const id = parseInt(req.params.id);
+    const db = await connectToDB();
+    await db.collection("spese").findOneAndDelete({'id':id});
+    res.json("fatto");
 })
 
-app.get("/api/balance/:id", async (req,res) =>{
-    
+app.get("/api/balance", autenticazione, async (req,res) =>{ //rimanda il bilancio
+    var bilancio =0
+    const userId = req.session.user.username + ":";
+    const query = new RegExp(userId);
+    const db = await connectToDB();
+    const result = await db.collection("spese").find({"Partecipanti+Quote":{$regex: query}}).toArray();
+    var filterValue = req.session.user.username+":";
+    result.forEach(entry => {
+        const valori = entry['Partecipanti+Quote']   ;
+        const statement = valori.filter(option => option.startsWith(filterValue));
+        const quota = statement[0].split(':');
+        const valquota = parseFloat(quota[1]);
+        bilancio -=valquota;
+    });
+    res.json(bilancio);
+
 })
 
-app.get("/api/budget/search?q=query", async (req,res) =>{
-    
+app.get("/api/balance/:id", autenticazione, async (req,res) =>{ //prende l'user della sessione e ritorna tutte le spese con nome utente = id
+    const user = "^"+ req.session.user.username+":";
+    const userRegex = new RegExp(user);
+    const userId = "^" + req.params.id + ":";
+    const userIdRegex = new RegExp(userId);
+    const db = await connectToDB();
+    const query = await db.collection("spese").find({$and: [{'Partecipanti+Quote':{$regex: userRegex}}, {'Partecipanti+Quote':{$regex: userIdRegex}}]}).toArray();
+    res.send(query);
 })
 
-app.get("/api/budget/whoami", async (req,res) =>{
-    
+app.get("/api/budget/search", autenticazione, async (req,res) =>{ //cerca spese in base a categoria e descrizione
+    const userId = req.session.user.username +":";
+    const userIdRegex = new RegExp(userId);
+    const catRe = "^" + req.query.Categoria;
+    const catRegex = new RegExp(catRe);
+    const descrRe  = "^" + req.query.Descrizione;
+    const descrRegex = new RegExp(descrRe);
+    const db = await connectToDB();
+    const spese = await db.collection("spese").find({'Categoria':{$regex: catRegex},'Descrizione':{$regex: descrRegex},'Partecipanti+Quote':{$regex: userIdRegex}}).toArray();
+    res.json(spese);
+})
+app.get("/api/budget/:year", autenticazione, async (req,res) =>{
+    const db = await connectToDB();
+    const userId = req.session.user.username+":";
+    const query = new RegExp(userId);
+    const dataquery = new RegExp(req.params.year);
+    const trovato = await db.collection("spese").find({'Data':{$regex: dataquery}, 'Partecipanti+Quote':{$regex: query}}).toArray();
+    res.json(trovato);
+}) 
+app.get("/api/budget/whoami", autenticazione, async (req,res) =>{
+    res.json(req.session.user); //ritorna username e pw della sessione
 })
 
-app.get("/api/users/search", async (req,res) =>{
+app.get("/api/users/search", autenticazione, async (req,res) =>{ //cerca tra categoria e descrizione
     const queryRegex = "^" + req.query.q;
+    console.log(req.query.d);
     const regex = new RegExp(queryRegex);
     const db = await connectToDB();
     const result = await db.collection("users").find({username:{ $regex: regex }}).toArray();
@@ -135,7 +199,7 @@ app.get("/api/users/search", async (req,res) =>{
 app.listen(3000, async () => {
 });
 
-async function connectToDB(){
+async function connectToDB(){ //connette al database
     await client.connect();
     const db = client.db("DividiSaggiamente");
     return db;
@@ -147,3 +211,4 @@ function getUsernames(userArray){
     }
     return arrayResult;
 }
+

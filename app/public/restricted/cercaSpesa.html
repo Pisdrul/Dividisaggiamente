@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<head>
+    <title> Cerca Spesa</title>
+    <script src="../assets/js/cercaSpesa.js" defer></script>
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <header id="Return-to-user">
+        <button onclick="window.location.href='utente.html';">Torna indietro</button>
+    </header>
+    <form id="searchFields">
+        Inserisci i parametri di ricerca: 
+        <div class="form-group">
+            <label for="categoria">Categoria:</label>
+            <input type="text" id="categoria">
+        </div>
+        <div class="form-group">
+            <label for="utente">Descrizione:</label>
+            <input type="text" id="descrizione">
+        </div>
+        <button type="button" id="cerca">Cerca</button>
+    </form>
+    <div>
+        <table id="searchTable">
+            <tr id="th">
+                <th> ID Spesa</th>
+                <th> Data</th>
+                <th> Categoria</th>
+                <th> Descrizione</th>
+                <th> Quota</th>
+            </tr>
+        </table>
+    </div>
+</body>

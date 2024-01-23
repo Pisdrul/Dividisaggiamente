@@ -31,22 +31,25 @@ form {
     display: inline-block;
     width: 30%;
     margin: 2%;
-    font-size: 1.2vw;
+    font-size: 1.5vw;
 }
 p{
     margin-bottom: 10px;
 }
 
-table{
+#results{
     border-collapse: collapse;
     max-width: 250px;
     margin-top: 2%;
 }
-tr{
+#results tr{
     border: 1px solid black;
     line-height: 25px;
     display: block;
-
+    
+}
+#results th{
+    width: fit-content;
 }
 table tr:nth-child(odd) {
     background-color: lightsteelblue;
@@ -54,9 +57,6 @@ table tr:nth-child(odd) {
 
 table tr:nth-child(even) {
     background-color: white;    
-}
-table th{
-    border: 1px solid black;
 }
 #results{
     margin-top: 2%;
@@ -66,10 +66,38 @@ header{
 }
 #bilancio{
     font-size: 2.3vw;
-    margin-bottom: 3%;
+    margin-bottom: 2%;
+    border: solid black 1px;
+    width: fit-content;
+    padding: 1%;
+    background-image: url(https://media.istockphoto.com/id/1147521090/photo/empty-white-studio-room-abstract-background.jpg?s=612x612&w=0&k=20&c=YNFVwi9y-7M4n4T7hBKA4XwvcECPHuOWcONbsDqJNco=);
 }
 
 .Search{
-    display: inline;
+    display: inline-block;
     margin-right: 2%;
+    margin-top: 2%;
+}
+#guardaSpese{
+    border: 1px solid black;
+    width: fit-content;
+    padding: 1%;
+    border-radius: 3px;
+    background-image: url(https://media.istockphoto.com/id/1147521090/photo/empty-white-studio-room-abstract-background.jpg?s=612x612&w=0&k=20&c=YNFVwi9y-7M4n4T7hBKA4XwvcECPHuOWcONbsDqJNco=);
+}
+
+table{
+    margin-top: 1%;
+    table-layout: fixed;
+    border-collapse:collapse;
+    border:1px solid black;
+}
+
+td{
+    width: fit-content;
+    text-align: center;
+    border:1px solid black;
+}
+a{
+    text-align: center;
 }

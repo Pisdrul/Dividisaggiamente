@@ -2,7 +2,9 @@ const text = document.querySelector("#utente");
 const table = document.querySelector("#results");
 const button = document.querySelector("#submit");
 const error = document.querySelector("#error");
+var ownUser;
 button.addEventListener("click", async event =>{
+    getUsername();
     error.innerHTML="";
     table.innerHTML="";
     table.style.display ="none";
@@ -18,9 +20,20 @@ button.addEventListener("click", async event =>{
         table.appendChild(header);
         for(user in result){
         const tr =document.createElement("tr");
-        tr.innerHTML = result[user];
+        if(result[user]==ownUser){ //se clicki rimanda al tuo bilancio
+            const a = document.createElement("a");
+            a.href=`/restricted/speseEBilancio.html`;
+            a.innerText= result[user];
+            tr.appendChild(a);
+        } else{ //se clicki ti manda alla pagine bilancio con utente
+            const a = document.createElement("a");
+            const link = `/restricted/bilancioUtente.html?id=`+result[user];
+            a.href=link;
+            a.innerText= result[user];
+            tr.appendChild(a);
+        }
         if(result[user]===''){
-            tr.innerHTML= "&nbsp";
+            tr.innerText= "&nbsp";
         }
         table.appendChild(tr);
     }
@@ -37,4 +50,12 @@ async function sendQuery(query){
     const risposta = await response.json();
     console.log(risposta);
     return risposta;
+}
+
+async function getUsername(){ //prendi username dal server
+    const risposta = await fetch("/api/username", {
+        method: 'GET',
+        headers: {'Content-type': 'application/json'}
+    });
+    ownUser = await risposta.json();
 }

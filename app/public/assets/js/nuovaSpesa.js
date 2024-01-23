@@ -108,14 +108,14 @@ submit.addEventListener("click", async event =>{ //invia i dati al server
 async function sendData(daInviare){
     const dataPerPost = new Date(daInviare.data);
     const month = dataPerPost.getUTCMonth() + 1;
-    const string = "/api/" + dataPerPost.getUTCFullYear() +  "/" + month;
+    const string = "/api/budget/" + dataPerPost.getUTCFullYear() +  "/" + month;
     const response = await fetch(string, {
         method: 'POST',
         headers: {'Content-type': 'application/json'},
         body: JSON.stringify(daInviare)
     });
     const risposta = await response.json();
-    console.log(risposta);
+    alert("Spesa creata con successo!");
 }
 
 
