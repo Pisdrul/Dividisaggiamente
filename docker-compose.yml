@@ -1,19 +1,19 @@
 version: "3"
 services:
-  dividisaggiamente:
-    container_name: dividisaggiamente
-    build: .
-    command: nodemon -L --watch . -e js app.js
-    ports:
-      - "3000:3000"
-    volumes:
-      - ./app:/var/www
-    links:
-      - "mongo-project:mongohost"
-  mongo-project:
-    container_name: mongo-project
-    image: mongo:latest
-    volumes:
-      - ./data:/data/db
-    ports:
-      - "27017:27017"
+ dividisaggiamentetrevisan:
+   container_name: dividisaggiamentetrevisan
+   build: .
+   command: nodemon -L --watch /usr/src/app -e js app.js
+   ports:
+     - "3000:3000"
+   volumes:
+     - ./app:/usr/src/app
+   links:
+     - "mongotrevisan:mongohost"
+ mongotrevisan:
+   container_name: mongotrevisan
+   image: mongo:latest
+   volumes:
+     - ./data:/data/db
+   ports:
+     - '27017:27017'

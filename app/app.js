@@ -213,21 +213,47 @@ function getUsernames(userArray){
     return arrayResult;
 }
 
-app.get("/firsttime", async (req,res) =>{
+app.get("/firsttime", async (req,res) =>{ //Inserire dati nel database vuoto, attenzione a farlo più di una volta che genera doppioni
     const db = await connectToDB();
     await db.collection("users").insertMany([
         {
-        username: "pis",
-        password: "drul"
+        username: "francesco",
+        password: "password"
     },
     {
         username: 'valeria',
         password: 'password'
+    },
+    {
+        username: "utente",
+        password: "password"
+    },
+    {
+        username: "antonio",
+        password: "password"
+    },
+    {
+        username: "claudio",
+        password: "password"
     }
     ]);
     await db.collection("spese").insertMany(
         [
-            {"id" : 17, "Categoria" : "Test", "Descrizione" : "Test check", "Data" : "2024-01-23", "Partecipanti+Quote" : [ "pis:75", "valeria:25" ] },
-            {"id" : 12, "Categoria" : "Test", "Descrizione" : "Test", "Data" : "2024-01-16", "Partecipanti+Quote" : [ "valeria:-100" ] }
+            {"id" : 1, "Categoria" : "Cena", "Descrizione" : "Cena fuori amici calcetto", "Data" : "2023-02-26", "Partecipanti+Quote" : [ "valeria:25", "francesco:25","claudio:25","antonio:25","utente:25" ] },
+            {"id" : 2, "Categoria" : "Pranzo", "Descrizione" : "Pranzo fuori con claudio", "Data" : "2021-04-11", "Partecipanti+Quote" : [  "antonio:25","claudio:25"] },
+            {"id" : 3, "Categoria" : "Paga", "Descrizione" : "Arrivata 13esima", "Data" : "2022-12-28", "Partecipanti+Quote" : ["utente:-1300"] },
+            {"id" : 4, "Categoria" : "Aperitivo", "Descrizione" : "Spritz con francesco e claudio", "Data" : "2024-01-10", "Partecipanti+Quote" : [ "valeria:10", "francesco:10","claudio:5",] },
+            {"id" : 5, "Categoria" : "Mutuo", "Descrizione" : "Pagamento rata dicembre", "Data" : "2023-12-10", "Partecipanti+Quote" : [ "valeria:200",] },
+            {"id" : 6, "Categoria" : "Cena", "Descrizione" : "Cena con tutti", "Data" : "2024-01-10", "Partecipanti+Quote" : [ "valeria:25", "francesco:25","claudio:25","utente:25","antonio:25"] },
+            {"id" : 7, "Categoria" : "Pagamento", "Descrizione" : "Pagato valeria", "Data" : "2024-01-10", "Partecipanti+Quote" : [ "francesco:50", "valeria:-50"] },
+            {"id" : 8, "Categoria" : "Paga", "Descrizione" : "Paga arrivata", "Data" : "2024-01-25", "Partecipanti+Quote" : [ "utente:-500"] },
+            {"id" : 9, "Categoria" : "Vacanza", "Descrizione" : "Pagato biglietti vacanza", "Data" : "2022-05-16", "Partecipanti+Quote" : [ "valeria:100", "francesco:100" ] },
+            {"id" : 10, "Categoria" : "Calcetto", "Descrizione" : "Comprato palloni", "Data" : "2023-02-11", "Partecipanti+Quote" : [ "valeria:25" ] },
+            {"id" : 11, "Categoria" : "Paga", "Descrizione" : "Paga Gennaio", "Data" : "2024-01-25", "Partecipanti+Quote" : [ "francesco:-100" ] },
+            {"id" : 12, "Categoria" : "Paga", "Descrizione" : "Arrivata Paga Gennaio", "Data" : "2024-01-16", "Partecipanti+Quote" : [ "valeria:-100" ] },
+            {"id" : 13, "Categoria" : "Spesa", "Descrizione" : "Spesa assieme a pis", "Data" : "2024-01-23", "Partecipanti+Quote" : [ "francesco:75", "valeria:25" ] },
+            {"id" : 14, "Categoria" : "Cena", "Descrizione" : "Cena fuori", "Data" : "2024-01-23", "Partecipanti+Quote" : [ "utente:25", "claudio:25" ] },
+            {"id" : 15, "Categoria" : "Spesa", "Descrizione" : "Spesa assieme a valeria", "Data" : "2023-11-23", "Partecipanti+Quote" : [ "francesco:45", "valeria:20" ] } 
     ]);
+    res.json("Success");
 })
