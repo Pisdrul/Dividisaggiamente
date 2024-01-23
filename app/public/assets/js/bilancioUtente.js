@@ -52,8 +52,8 @@ function appendiSpesa(entry){
     tr.appendChild(quota2);
     table.appendChild(tr);
 }
-function filterQuota(quotas){
-    var filterValue = ownUser+":";
+function filterQuota(quotas,id){
+    var filterValue = id+":";
     const statement = quotas.filter(option => option.startsWith(filterValue));
     const quota = statement[0].split(':');
     const valquota = parseFloat(quota[1]);

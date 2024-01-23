@@ -18,6 +18,7 @@ app.use(session({ //token sessione
     resave: false
 }));
 
+
 function autenticazione(req, res, next){ //rimanda errore se l'utente non è autenticato e cerca di accedere a una risorsa restricted
     if(req.session.user){
         next();
@@ -212,3 +213,21 @@ function getUsernames(userArray){
     return arrayResult;
 }
 
+app.get("/firsttime", async (req,res) =>{
+    const db = await connectToDB();
+    await db.collection("users").insertMany([
+        {
+        username: "pis",
+        password: "drul"
+    },
+    {
+        username: 'valeria',
+        password: 'password'
+    }
+    ]);
+    await db.collection("spese").insertMany(
+        [
+            {"id" : 17, "Categoria" : "Test", "Descrizione" : "Test check", "Data" : "2024-01-23", "Partecipanti+Quote" : [ "pis:75", "valeria:25" ] },
+            {"id" : 12, "Categoria" : "Test", "Descrizione" : "Test", "Data" : "2024-01-16", "Partecipanti+Quote" : [ "valeria:-100" ] }
+    ]);
+})
